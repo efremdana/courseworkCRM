@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="kursovia.View.FinanceData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:kursovia.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:oxy="http://oxyplot.org/wpf" 
+             xmlns:UserControl="clr-namespace:kursovia.View.Forms"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Text="Обороты компании"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <StackPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 2 0 40">
+                    <ComboBox x:Name="MonthComboBox" Width="100" Margin="20 0">
+                        <ComboBoxItem Content="Январь"/>
+                        <ComboBoxItem Content="Февраль"/>
+                        <ComboBoxItem Content="Март"/>
+                        <ComboBoxItem Content="Апрель"/>
+                        <ComboBoxItem Content="Май"/>
+                        <ComboBoxItem Content="Июнь"/>
+                        <ComboBoxItem Content="Июль"/>
+                        <ComboBoxItem Content="Август"/>
+                        <ComboBoxItem Content="Сентябрь"/>
+                        <ComboBoxItem Content="Октябрь"/>
+                        <ComboBoxItem Content="Ноябрь"/>
+                        <ComboBoxItem Content="Декабрь"/>
+                    </ComboBox>
+                    <TextBox x:Name="YearTextBox" Width="50" Margin="20 0"/>
+                    <Button Background="#007ACC" 
+                    Foreground="White" 
+                    BorderBrush="#007ACC" 
+                    BorderThickness="1" 
+                    Margin="20 0"
+                    Click="Button_Click_Mark">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Content}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                                    <Path Data="M0,5 L5,10 L15,0" 
+                              Stroke="White" 
+                              StrokeThickness="2" 
+                              Margin="5 0 3 0"
+                              Visibility="{Binding IsChecked, ElementName=check, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+                <DataGrid x:Name="TurnoversDataGrid" AutoGenerateColumns="False" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="День" Binding="{Binding Day}"/>
+                        <DataGridTextColumn Header="Год" Binding="{Binding Year}"/>
+                        <DataGridTextColumn Header="Тип оборота" Binding="{Binding TypeTurnover}"/>
+                        <DataGridTextColumn Header="Номинал" Binding="{Binding Denomination}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <Line X1="0" Y1="0" X2="590" Y2="0" Stroke="Black" StrokeThickness="2" VerticalAlignment="Bottom"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" x:Name="FormGrid">
+            <StackPanel Margin="2">
+                <UserControl:AddTurnover x:Name="Form"/>
+                <Button Content="Синхронизовать" Width="120" Margin="10" Click="Button_Click"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+            <oxy:PlotView x:Name="GraphTurnover" Model="{Binding FinanceViewModelProperty}" Margin="5"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="kursovia.View.Reclame"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:kursovia.View" 
+             xmlns:oxy="http://oxyplot.org/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2" Grid.Row="0">
+            <TextBlock Text="Эффективность рекламы" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <oxy:PlotView Model="{Binding ReclameViewModelCost}" Margin="8 15 4 10" x:Name="GraphCost"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <oxy:PlotView Model="{Binding ReclameViewModelCustomer}" Margin="8 10 4 15" x:Name="GraphCustomers"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel Margin="4 15 8 15">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 2 0 40">
+                    <ComboBox x:Name="MonthComboBox" Width="100" Margin="20 0">
+                        <ComboBoxItem Content="Январь"/>
+                        <ComboBoxItem Content="Февраль"/>
+                        <ComboBoxItem Content="Март"/>
+                        <ComboBoxItem Content="Апрель"/>
+                        <ComboBoxItem Content="Май"/>
+                        <ComboBoxItem Content="Июнь"/>
+                        <ComboBoxItem Content="Июль"/>
+                        <ComboBoxItem Content="Август"/>
+                        <ComboBoxItem Content="Сентябрь"/>
+                        <ComboBoxItem Content="Октябрь"/>
+                        <ComboBoxItem Content="Ноябрь"/>
+                        <ComboBoxItem Content="Декабрь"/>
+                    </ComboBox>
+                    <TextBox x:Name="YearTextBox" Width="50" Margin="20 0"/>
+                    <Button Background="#007ACC" 
+                    Foreground="White" 
+                    BorderBrush="#007ACC" 
+                    BorderThickness="1" 
+                    Margin="20 0"
+                    Click="Button_Click_Mark">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Content}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                                    <Path Data="M0,5 L5,10 L15,0" 
+                              Stroke="White" 
+                              StrokeThickness="2" 
+                              Margin="5 0 3 0"
+                              Visibility="{Binding IsChecked, ElementName=check, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                    </Button>
+                </StackPanel>
+                <DataGrid x:Name="ReclameDataGrid" AutoGenerateColumns="False" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Рекламный источник" Binding="{Binding Source}"/>
+                        <DataGridTextColumn Header="Сумма" Binding="{Binding Cost}"/>
+                        <DataGridTextColumn Header="Количество клиентов" Binding="{Binding CountCustomers}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

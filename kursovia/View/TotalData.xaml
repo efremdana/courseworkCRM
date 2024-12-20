@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="kursovia.View.TotalData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:kursovia.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Главная" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <StackPanel VerticalAlignment="Center" Margin="2">
+                <DataGrid x:Name="projectsDataGrid" AutoGenerateColumns="False" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Номер" Binding="{Binding Path=ProjectNumber}"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Path=ProjectName}"/>
+                        <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Cost}"/>
+                        <DataGridTextColumn Header="Заказчик" Binding="{Binding Path=Client}"/>
+                        <DataGridTextColumn Header="Тип документации" Binding="{Binding Path=DocumentationType}"/>
+                        <DataGridTextColumn Header="Инжинер" Binding="{Binding Path=Inginner}"/>
+                        <DataGridTextColumn Header="Город" Binding="{Binding Path=City}"/>
+                        <DataGridTextColumn Header="Договор" Binding="{Binding Path=Contract}"/>
+                        <DataGridTextColumn Header="Дата начала" Binding="{Binding Path=DateStartWork}"/>
+                        <DataGridTextColumn Header="Дата окончания" Binding="{Binding Path=DateEndWork}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <Line X1="0" Y1="0" X2="0" Y2="400" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Right"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackPanel Margin="8" VerticalAlignment="Center">
+                <StackPanel>
+                    <DataGrid AutoGenerateColumns="False" x:Name="TotalDataGrid">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Значение" Binding="{Binding Data}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel HorizontalAlignment="Center" Margin="0 2 0 40">
+                        <ComboBox x:Name="MonthComboBox" Width="100" Margin="20 10">
+                            <ComboBoxItem Content="Январь"/>
+                            <ComboBoxItem Content="Февраль"/>
+                            <ComboBoxItem Content="Март"/>
+                            <ComboBoxItem Content="Апрель"/>
+                            <ComboBoxItem Content="Май"/>
+                            <ComboBoxItem Content="Июнь"/>
+                            <ComboBoxItem Content="Июль"/>
+                            <ComboBoxItem Content="Август"/>
+                            <ComboBoxItem Content="Сентябрь"/>
+                            <ComboBoxItem Content="Октябрь"/>
+                            <ComboBoxItem Content="Ноябрь"/>
+                            <ComboBoxItem Content="Декабрь"/>
+                        </ComboBox>
+                        <TextBox x:Name="YearTextBox" Width="50" Margin="20 10"/>
+                        <Button Background="#007ACC" 
+                    Foreground="White" 
+                    BorderBrush="#007ACC" 
+                    BorderThickness="1" 
+                    Margin="20 10"
+                    Width="50"
+                    Click="Button_Click_Mark">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Content}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                                        <Path Data="M0,5 L5,10 L15,0" 
+                              Stroke="White" 
+                              StrokeThickness="2" 
+                              Margin="5 0 3 0"
+                              Visibility="{Binding IsChecked, ElementName=check, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel VerticalAlignment="Center" Margin="8" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="CustomerCombo" Margin="10 0">
+                            <ComboBoxItem Content="-Заказчик-" IsSelected="True"/>
+                        </ComboBox>
+                        <ComboBox x:Name="DocumentationCombo" Margin="10 0">
+                            <ComboBoxItem Content="-Документация-" IsSelected="True"/>
+                        </ComboBox>
+                        <TextBox x:Name="InginnerText" Margin="10 0" Width="150" mah:TextBoxHelper.Watermark="Инжинер"/>
+                        <TextBox x:Name="CityText" Margin="10 0" Width="150" mah:TextBoxHelper.Watermark="Город"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Margin="0 10 40 0">
+                            <Label Content="Начальная дата"/>
+                            <DatePicker x:Name="InStartPicker" SelectedDateFormat="Short"/>
+                            <DatePicker x:Name="ToStartPicker" SelectedDateFormat="Short" Margin="0 15"/>
+                        </StackPanel>
+                        <StackPanel Margin="40 10 0 0">
+                            <Label Content="Конечная дата"/>
+                            <DatePicker x:Name="InEndPicker" SelectedDateFormat="Short"/>
+                            <DatePicker x:Name="ToEndPicker" SelectedDateFormat="Short" Margin="0 15"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <Button x:Name="Filtr" Content="Фильтр" VerticalAlignment="Center" Margin="40 0 10 0" Width="70"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
